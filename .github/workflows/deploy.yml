@@ -3,18 +3,16 @@ name: Frontend CI/CD
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -26,9 +24,13 @@ jobs:
         run: echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env
 
       - name: Build React app
-        run: npm run build
+        run: |
+          npm run build || (echo "❌ Build failed" && exit 1)
 
-      - name: Deploy to S3
+      - name: Check if build folder exists
+        run: ls -la build
+
+      - name: Upload to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
           args: --follow-symlinks --delete
