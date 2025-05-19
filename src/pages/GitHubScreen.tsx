@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useRef } from "react";
+import  { useEffect, useState} from "react";
 import { useLocation, useParams } from "react-router-dom";
-import axios from "axios";
+
 
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
 import ContributionChart from "../components/gitHub/ContributionChart";
 import UserSummaryTable from "../components/gitHub/UserSummaryTable";
-import { retrieveContributionData } from "../services/githubService";
+//import { retrieveContributionData } from "../services/githubService";
 import calculateContributionMetrics from "../components/gitHub/calculateContributionMetrics";
 
 const FinalCandidate = () => {
-  const { id } = useParams(); // Get Candidate ID from URL
-  const [predictedPercentage, setPredictedPercentage] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [userName, setUserName] = useState("yasas4d");
-  const [totalContributions, setTotalContributions] = useState(0);
+  // const { id } = useParams(); // Get Candidate ID from URL
+  // const [predictedPercentage, setPredictedPercentage] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState("");
+  // const [userName, setUserName] = useState("yasas4d");
+  //const [totalContributions, setTotalContributions] = useState(0);
   const [metrics, setMetrics] = useState(null);
   const [contributionDays, setContributionDays] = useState([]);
 

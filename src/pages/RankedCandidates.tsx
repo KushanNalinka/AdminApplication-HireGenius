@@ -1,3 +1,4 @@
+// // 
 // import { useEffect, useState } from "react";
 // import { useParams, useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -17,8 +18,8 @@
 //       try {
 //         const response = await axios.get(`http://localhost:5000/candidates/job/${jobId}`);
 //         const sortedCandidates = response.data
-//           .filter((candidate) => candidate.predicted_matching_percentage) // Only include candidates with a final score
-//           .sort((a, b) => b.predicted_matching_percentage - a.predicted_matching_percentage); // Highest score first
+//           .filter((candidate) => candidate.extract_predicted_matching_percentage) // Only include candidates with a final score
+//           .sort((a, b) => b.extract_predicted_matching_percentage - a.extract_predicted_matching_percentage); // Highest score first
 
 //         setCandidates(sortedCandidates);
 //       } catch (error) {
@@ -35,20 +36,41 @@
 //   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 //   const currentRecords = candidates.slice(indexOfFirstRecord, indexOfLastRecord);
 
+//   // Function to calculate GitHub/LinkedIn/Transcript Matching Percentage
+//   const calculateAverageMarks = (candidate) => {
+//     const githubMarks = candidate.github_marks || 0;
+//     const linkedinMarks = candidate.linkedin_marks || 0;
+//     const transcriptMarks = candidate.transcript_marks || 0;
+
+//     const averageMarks = (githubMarks + linkedinMarks + transcriptMarks) / 3;
+//     return averageMarks.toFixed(2); // Round to 2 decimal places
+//   };
+
+//   // Function to call the Finalized Score API
+//   const handleFinalizeClick = async (candidateId) => {
+//     try {
+//       await axios.post(`http://localhost:5000/candidates/finalized_score/${candidateId}`);
+//       alert("Finalized Score calculated and updated successfully!");
+//       window.location.reload(); // Refresh page after updating score
+//     } catch (error) {
+//       alert("Failed to calculate Finalized Score.");
+//     }
+//   };
+
 //   return (
 //     <>
 //       <PageMeta title="Finalized Candidates" description="List of candidates with final scores" />
 //       <PageBreadcrumb pageTitle="Finalized Candidates" />
-      
+
 //       <div className="p-6 bg-[#2A2438] text-white min-h-screen">
-//       <button
+//         <button
 //           className="bg-[#DBD8E3] text-black px-4 py-2 rounded-lg hover:bg-[#5C5470] hover:text-white"
 //           onClick={() => navigate(-1)}
 //         >
 //           Go Back
 //         </button>
 //         <h1 className="text-3xl font-bold text-[#DBD8E3] mb-4">Finalized Candidates</h1>
-        
+
 //         {error ? (
 //           <p className="text-red-400 font-semibold">{error}</p>
 //         ) : (
@@ -63,7 +85,6 @@
 //                     <th className="py-2 px-4">Predicted Matching Percentage</th>
 //                     <th className="py-2 px-4">GitHb/Linkedin/Transcript Matching Percentage</th>
 //                     <th className="py-2 px-4">Finalized Matching Percentage</th>
-                    
 //                   </tr>
 //                 </thead>
 //                 <tbody>
@@ -73,7 +94,18 @@
 //                       <td className="py-2 px-4">{candidate.lastName}</td>
 //                       <td className="py-2 px-4">{candidate.confirmEmail}</td>
 //                       <td className="py-2 px-4 font-bold text-[#4CAF50]">
-//                         {candidate.predicted_matching_percentage}%
+//                         {candidate.extract_predicted_matching_percentage}%
+//                       </td>
+//                       <td className="py-2 px-4 font-bold text-[#FFA500]">
+//                         {calculateAverageMarks(candidate)}%
+//                       </td>
+//                       <td className="py-2 px-4">
+//                         <button
+//                           className="bg-[#DBD8E3] text-black px-3 py-1 rounded-lg hover:bg-[#5C5470] hover:text-white"
+//                           onClick={() => handleFinalizeClick(candidate._id)}
+//                         >
+//                           Finalized
+//                         </button>
 //                       </td>
 //                     </tr>
 //                   ))}
@@ -104,24 +136,37 @@
 
 // export default FinalizedCandidates;
 
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
 
-const FinalizedCandidates = () => {
-  const { jobId } = useParams();
-  const [candidates, setCandidates] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+// Define the Candidate type based on your data structure
+interface Candidate {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  confirmEmail: string;
+  extract_predicted_matching_percentage: number;
+  github_marks?: number;
+  linkedin_marks?: number;
+  transcript_marks?: number;
+}
+
+const FinalizedCandidates: React.FC = () => {
+  const { jobId } = useParams<{ jobId: string }>();
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const recordsPerPage = 10;
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFinalizedCandidates = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/candidates/job/${jobId}`);
+        const response = await axios.get<Candidate[]>(`http://localhost:5000/candidates/job/${jobId}`);
         const sortedCandidates = response.data
           .filter((candidate) => candidate.extract_predicted_matching_percentage) // Only include candidates with a final score
           .sort((a, b) => b.extract_predicted_matching_percentage - a.extract_predicted_matching_percentage); // Highest score first
@@ -142,7 +187,7 @@ const FinalizedCandidates = () => {
   const currentRecords = candidates.slice(indexOfFirstRecord, indexOfLastRecord);
 
   // Function to calculate GitHub/LinkedIn/Transcript Matching Percentage
-  const calculateAverageMarks = (candidate) => {
+  const calculateAverageMarks = (candidate: Candidate) => {
     const githubMarks = candidate.github_marks || 0;
     const linkedinMarks = candidate.linkedin_marks || 0;
     const transcriptMarks = candidate.transcript_marks || 0;
@@ -152,7 +197,7 @@ const FinalizedCandidates = () => {
   };
 
   // Function to call the Finalized Score API
-  const handleFinalizeClick = async (candidateId) => {
+  const handleFinalizeClick = async (candidateId: string) => {
     try {
       await axios.post(`http://localhost:5000/candidates/finalized_score/${candidateId}`);
       alert("Finalized Score calculated and updated successfully!");
