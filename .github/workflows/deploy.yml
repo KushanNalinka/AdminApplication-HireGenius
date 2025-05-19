@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      artifact_name: frontend-build
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -30,18 +33,19 @@ jobs:
       - name: Upload build folder
         uses: actions/upload-artifact@v4
         with:
-          name: build
+          name: frontend-build         # <-- match this name
           path: build
 
   deploy:
     needs: build
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+
     steps:
       - name: Download build folder
         uses: actions/download-artifact@v4
         with:
-          name: build
+          name: frontend-build         # <-- match upload name
           path: build
 
       - name: Deploy to S3
@@ -55,4 +59,3 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           SOURCE_DIR: build
           DEST_DIR: ""
-
