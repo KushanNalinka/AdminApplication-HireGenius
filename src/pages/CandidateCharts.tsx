@@ -121,12 +121,8 @@ interface Charts {
   [category: string]: ChartData;
 }
 
-interface RouteParams {
-  candidateID?: string;
-}
-
 const CandidateCharts = () => {
-  const { candidateID } = useParams<RouteParams>();
+  const { candidateID } = useParams<{ candidateID: string }>();
   const navigate = useNavigate();
   const [charts, setCharts] = useState<Charts>({});
   const [error, setError] = useState<string>("");
@@ -136,18 +132,14 @@ const CandidateCharts = () => {
   useEffect(() => {
     const fetchCharts = async () => {
       try {
-        const response = await axios.get<{ charts: Charts }>(
-          `http://localhost:5000/candidates/charts/${candidateID}`
-        );
+        const response = await axios.get(`http://localhost:5000/candidates/charts/${candidateID}`);
         setCharts(response.data.charts);
       } catch (error) {
         setError("Failed to load charts.");
         console.error("Error fetching charts:", error);
       }
     };
-    if (candidateID) {
-      fetchCharts();
-    }
+    fetchCharts();
   }, [candidateID]);
 
   return (
