@@ -149,12 +149,8 @@ interface Candidate {
   github_linkedin_transcript_avg?: string;
 }
 
-interface RouteParams {
-  jobId: string;
-}
-
 const FinalizedCandidates = () => {
-  const { jobId } = useParams<RouteParams>();
+  const { jobId } = useParams<{ jobId?: string }>();
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const recordsPerPage: number = 10;
@@ -180,7 +176,9 @@ const FinalizedCandidates = () => {
       }
     };
 
-    fetchFinalizedCandidates();
+    if (jobId) {
+      fetchFinalizedCandidates();
+    }
   }, [jobId]);
 
   const calculateAverageMarks = (candidate: Candidate): string => {

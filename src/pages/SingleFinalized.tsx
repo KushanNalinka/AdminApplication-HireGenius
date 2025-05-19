@@ -68,12 +68,8 @@ import axios from "axios";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
 
-interface RouteParams {
-  id: string;
-}
-
 const FinalCandidate: React.FC = () => {
-  const { id } = useParams<RouteParams>(); // Get Candidate ID from URL
+  const { id } = useParams<{ id?: string }>(); // ✅ Corrected typing
 
   const [predictedPercentage, setPredictedPercentage] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -83,6 +79,12 @@ const FinalCandidate: React.FC = () => {
 
   useEffect(() => {
     const fetchPredictedPercentage = async () => {
+      if (!id) {
+        setError("Candidate ID is missing from URL.");
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await axios.get<{ extract_predicted_matching_percentage: number }>(
           `http://localhost:5000/candidates/${id}`
