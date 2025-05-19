@@ -2,26 +2,23 @@ name: Frontend CI/CD
 
 on:
   push:
-    branches: [ main ]          # adapt if you use another default branch
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
 jobs:
+# ───────── build ─────────
   build:
     runs-on: ubuntu-latest
-    outputs:
-      build_dir: ${{ steps.upload.outputs.artifact_id }}
-
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20          # Works with React 19.x
+          node-version: 20
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci --legacy-peer-deps
 
       - name: Inject .env for build
@@ -30,20 +27,18 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: build
           path: build
 
+# ───────── deploy ────────
   deploy:
     needs: build
-    if: github.ref == 'refs/heads/main'   # only deploy main
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Download artefact
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: build
           path: build
@@ -51,18 +46,18 @@ jobs:
       - name: Sync to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
-          args: --acl public-read --follow-symlinks --delete
+          args: --follow-symlinks --delete
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           SOURCE_DIR: build
-          DEST_DIR: /
+          DEST_DIR: ""          # upload to bucket root
 
-      # OPTIONAL: clear CloudFront cache after upload
+      # optional CF invalidation
       - name: Invalidate CloudFront
-        if: secrets.CLOUDFRONT_DISTRIBUTION_ID != ''
+        if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
         uses: chetan/invalidate-cloudfront-action@v2
         env:
           DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
