@@ -7,43 +7,44 @@ on:
     branches: [ main ]
 
 jobs:
-# ───────── build ─────────
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
 
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: Install deps
+      - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Inject .env for build
+      - name: Inject environment variable
         run: echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env
 
-      - name: Build
+      - name: Build React app
         run: npm run build
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload build folder
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: build
 
-# ───────── deploy ────────
   deploy:
     needs: build
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download build folder
+        uses: actions/download-artifact@v4
         with:
           name: build
           path: build
 
-      - name: Sync to S3
+      - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
           args: --follow-symlinks --delete
@@ -53,15 +54,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           SOURCE_DIR: build
-          DEST_DIR: ""          # upload to bucket root
+          DEST_DIR: ""
 
-      # optional CF invalidation
-      - name: Invalidate CloudFront
-        if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
-        uses: chetan/invalidate-cloudfront-action@v2
-        env:
-          DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          PATHS: '/*'
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
