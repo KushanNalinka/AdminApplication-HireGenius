@@ -26,6 +26,7 @@ import JobView from "./pages/JobView";
 import CandidateCharts from "./pages/CandidateCharts";
 import SingleCandidate from "./pages/SingleCandidate";
 import SingleFinalized from "./pages/SingleFinalized";
+import HRCandidates from "./pages/HR/HRCandidates";
 
 
 // import RankedCandidates from "./pages/RankedCandidates";
@@ -64,6 +65,9 @@ export default function App() {
             <Route path="/single/linkedin/:id" element={<LinkedinScreen/>} />
             <Route path="/single/transcript/:id" element={<TranscriptScreen />} /> */}
 
+            {/* HR Components */}
+            <Route path="/hr" element={<HRCandidates />} />
+
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
             <Route path="/jobcreate" element={<JobCreate />} />
@@ -91,7 +95,7 @@ export default function App() {
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
-        
+
         </Routes>
       </Router>
     </>
