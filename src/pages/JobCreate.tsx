@@ -647,6 +647,7 @@ import { motion } from "framer-motion";
 import "react-datepicker/dist/react-datepicker.css";
 import PageMeta from "../components/common/PageMeta";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
+const API_URL = import.meta.env.VITE_API_URL as string;   // ← magic line
 
 interface FormData {
   jobID: string;
@@ -702,7 +703,7 @@ const JobForm: React.FC = () => {
   useEffect(() => {
     if (jobID) {
       const fetchJob = async () => {
-        const response = await axios.get<FormData>(`http://localhost:5000/jobs/${jobID}`);
+        const response = await axios.get<FormData>(`${API_URL}/jobs/${jobID}`);
         setFormData(response.data);
       };
       fetchJob();
@@ -1065,6 +1066,20 @@ const JobForm: React.FC = () => {
                   <textarea 
                     name="requiredQualifications" 
                     value={formData.requiredQualifications} 
+                    onChange={handleChange} 
+                    rows={4}
+                    className="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm resize-none"
+                    placeholder="Mandatory qualifications and requirements"
+                  />
+                </div>
+
+                 <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-gray-200 font-medium">
+                    <span>✅</span> Duties
+                  </label>
+                  <textarea 
+                    name="duties" 
+                    value={formData.duties} 
                     onChange={handleChange} 
                     rows={4}
                     className="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm resize-none"
