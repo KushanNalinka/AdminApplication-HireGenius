@@ -216,6 +216,9 @@ const FinalizedCandidates = () => {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = candidates.slice(indexOfFirstRecord, indexOfLastRecord);
 
+
+
+
   return (
     <>
       <PageMeta title="Finalized Completed Candidates" description="List of candidates with final scores" />
@@ -289,6 +292,11 @@ const FinalizedCandidates = () => {
       </div>
     </>
   );
+
+  
+
+
+  
 };
 
 export default FinalizedCandidates;

@@ -290,8 +290,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import PageBreadcrumb from "../components/common/PageBreadCrumb";
-import PageMeta from "../components/common/PageMeta";
+
 
 // Define the Candidate type based on your data structure
 interface Candidate {
@@ -394,8 +393,7 @@ const FinalizedCandidates: React.FC = () => {
 
   return (
     <>
-      <PageMeta title="Finalized Candidates" description="List of candidates with final scores" />
-      <PageBreadcrumb pageTitle="Finalized Candidates" />
+     
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <div className="container mx-auto px-6 py-8">
