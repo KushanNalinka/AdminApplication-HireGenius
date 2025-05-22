@@ -30,9 +30,9 @@ import SingleFinalized from "./pages/SingleFinalized";
 import CompletedCandidates from "./pages/CompletedCandidates";
 
 import RankedCandidates from "./pages/RankedCandidates";
-// import GitHubScreen from "./pages/GitHubScreen";
-// import LinkedinScreen from "./pages/LinkedinScreen";
-// import TranscriptScreen from "./pages/TranscriptScreen";
+import GitHubScreen from "./pages/GitHubScreen";
+import LinkedinScreen from "./pages/LinkedinScreen";
+import TranscriptScreen from "./pages/TranscriptScreen";
 
 
 
@@ -60,9 +60,9 @@ export default function App() {
             <Route path="/single/finalized/:id" element={<SingleFinalized />} />
             <Route path="/finalized/ranked/:jobId" element={<RankedCandidates />} />
             <Route path="/completed/final-ranked/:jobId" element={<CompletedCandidates />} />
-            {/* <Route path="/single/github/:id" element={<GitHubScreen />} />
+            <Route path="/single/github/:id" element={<GitHubScreen />} />
             <Route path="/single/linkedin/:id" element={<LinkedinScreen/>} />
-            <Route path="/single/transcript/:id" element={<TranscriptScreen />} /> */}
+            <Route path="/single/transcript/:id" element={<TranscriptScreen />} />
 
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
