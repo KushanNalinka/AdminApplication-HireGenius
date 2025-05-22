@@ -97,8 +97,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import PageBreadcrumb from "../components/common/PageBreadCrumb";
-import PageMeta from "../components/common/PageMeta";
+
 const API_URL = import.meta.env.VITE_API_URL as string;   // ← magic line
 
 interface Candidate {
@@ -135,8 +134,7 @@ const CandidateList: React.FC = () => {
 
  return (
     <>
-      <PageMeta title="Candidates List" description="View all candidates" />
-      <PageBreadcrumb pageTitle="All Candidates" />
+   
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
         {/* Header Section */}
         <div className="max-w-7xl mx-auto mb-8">
