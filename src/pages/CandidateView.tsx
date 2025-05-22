@@ -139,14 +139,17 @@ const CandidateList: React.FC = () => {
         {/* Header Section */}
         <div className="max-w-7xl mx-auto mb-8">
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
-              <span className="text-2xl">👥</span>
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
-              Candidate Directory
-            </h1>
-            <p className="text-gray-300 text-lg">Manage and review all job applications</p>
-          </div>
+  <div className="flex items-center justify-center gap-4 mb-2">
+    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
+      <span className="text-xl">👥</span>
+    </div>
+    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+      Candidate Directory
+    </h2>
+  </div>
+ 
+</div>
+
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
