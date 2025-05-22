@@ -20,8 +20,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Inject environment variables
-        run: echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env
+      # - name: Inject environment variables
+      #   run: echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env
+
+      # 👇 inject production env (needs VITE_ prefix)
+      - name: Create .env.production
+        run: |
+          echo "VITE_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env.production
+
 
       - name: Build Vite app
         run: npm run build
