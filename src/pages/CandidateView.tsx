@@ -99,6 +99,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
+const API_URL = import.meta.env.VITE_API_URL as string;   // ← magic line
 
 interface Candidate {
   _id: string;
@@ -117,7 +118,7 @@ const CandidateList: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get<Candidate[]>("http://localhost:5000/candidates")
+      .get<Candidate[]>(`${API_URL}/candidates`)
       .then((response) => {
         setCandidates(response.data);
         console.log(response.data);
