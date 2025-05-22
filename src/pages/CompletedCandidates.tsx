@@ -157,29 +157,51 @@ const FinalizedCandidates = () => {
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const fetchFinalizedCandidates = async () => {
+  //     try {
+  //       const response = await axios.get<Candidate[]>(`http://localhost:5000/candidates/job/${jobId}`);
+
+  //       const sortedCandidates = response.data
+  //         .filter((candidate) => candidate.finalized_score)
+  //         .map((candidate) => ({
+  //           ...candidate,
+  //           github_linkedin_transcript_avg: calculateAverageMarks(candidate),
+  //         }))
+  //         .sort((a, b) => (b.finalized_score ?? 0) - (a.finalized_score ?? 0));
+
+  //       setCandidates(sortedCandidates);
+  //     } catch (error) {
+  //       setError("Failed to fetch finalized candidates.");
+  //     }
+  //   };
+
+  //   if (jobId) {
+  //     fetchFinalizedCandidates();
+  //   }
+  // }, [jobId]);
+
   useEffect(() => {
-    const fetchFinalizedCandidates = async () => {
-      try {
-        const response = await axios.get<Candidate[]>(`http://localhost:5000/candidates/job/${jobId}`);
+  const fetchFinalizedCandidates = async () => {
+    try {
+      const response = await axios.get<Candidate[]>(`http://localhost:5000/candidates/job/${jobId}`);
 
-        const sortedCandidates = response.data
-          .filter((candidate) => candidate.finalized_score)
-          .map((candidate) => ({
-            ...candidate,
-            github_linkedin_transcript_avg: calculateAverageMarks(candidate),
-          }))
-          .sort((a, b) => (b.finalized_score ?? 0) - (a.finalized_score ?? 0));
+      const updatedCandidates = response.data.map((candidate) => ({
+        ...candidate,
+        github_linkedin_transcript_avg: calculateAverageMarks(candidate),
+      }));
 
-        setCandidates(sortedCandidates);
-      } catch (error) {
-        setError("Failed to fetch finalized candidates.");
-      }
-    };
-
-    if (jobId) {
-      fetchFinalizedCandidates();
+      setCandidates(updatedCandidates);
+    } catch (error) {
+      setError("Failed to fetch finalized candidates.");
     }
-  }, [jobId]);
+  };
+
+  if (jobId) {
+    fetchFinalizedCandidates();
+  }
+}, [jobId]);
+
 
   const calculateAverageMarks = (candidate: Candidate): string => {
     const githubMarks = candidate.github_marks ?? 0;
