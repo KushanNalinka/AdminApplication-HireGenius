@@ -532,7 +532,7 @@ const FinalizedCandidates: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10">
-                    {currentRecords.map((candidate, index) => (
+                    {currentRecords.map((candidate) => (
                       <tr key={candidate._id} className="hover:bg-white/5 transition-colors duration-200">
                         <td className="py-4 px-6">
                           <div className="flex items-center gap-3">
