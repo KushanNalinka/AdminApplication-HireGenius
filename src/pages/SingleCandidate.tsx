@@ -394,7 +394,7 @@
 // export default CandidateProfile;
 
 
-mport { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
