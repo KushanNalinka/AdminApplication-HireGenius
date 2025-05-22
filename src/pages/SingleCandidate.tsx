@@ -171,10 +171,9 @@
 
 
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import axios from "axios";
-import PageBreadcrumb from "../components/common/PageBreadCrumb";
-import PageMeta from "../components/common/PageMeta";
+
 
 interface Experience {
   title: string;
@@ -194,6 +193,12 @@ interface Education {
 interface CourseOrAchievement {
   type: string;
   content: string;
+}
+
+interface ChartsData {
+  [category: string]: {
+    chart: string;
+  };
 }
 
 interface Candidate {
@@ -217,8 +222,8 @@ interface Candidate {
   privacyPolicy: string;
   employerChoice: string;
   message: string;
-  experience: Experience[] | string;
-  education: Education[] | string;
+  experience: Experience[];
+  education: Education[];
   work_experience: string[];
   project_experiences: string[];
   courses_certifications_achievements: CourseOrAchievement[];
@@ -233,22 +238,27 @@ interface Candidate {
   num_of_tools_technologies: number;
   resume: string;
   transcript: string;
+  entered_predicted_matching_percentage?: number;
+  entered_experience_similarity?: number;
+  entered_education_similarity?: number;
+  entered_courses_certifications_similarity?: number;
+  entered_employer_choice_similarity?: number;
+  entered_employer_expectations_similarity?: number;
+  entered_message_similarity?: number;
+  extract_cv_similarity?: number;
+  charts?: ChartsData;
 }
 
 const CandidateProfile = () => {
   const { id } = useParams<{ id: string }>();
+  
   const [candidate, setCandidate] = useState<Candidate | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>('overview');
-  //const navigate = useNavigate();
+  const [selectedChart, setSelectedChart] = useState<{ category: string; data: { chart: string } } | null>(null);
 
   useEffect(() => {
-    console.log("Fetching candidate details for ID:", id);
-
-    if (!id) {
-      console.error("Candidate ID is undefined. Cannot fetch data.");
-      return;
-    }
+    if (!id) return;
 
     axios
       .get(`http://localhost:5000/candidates/${id}`)
@@ -257,7 +267,7 @@ const CandidateProfile = () => {
         setCandidate({
           ...data,
           experience: typeof data.experience === "string" ? JSON.parse(data.experience) : data.experience,
-          education: typeof data.education === "string" ? JSON.parse(data.education) : data.education,
+          education: typeof data.education === "string" ? JSON.parse(data.education) : data.education
         });
         setIsLoading(false);
       })
@@ -266,6 +276,8 @@ const CandidateProfile = () => {
         setIsLoading(false);
       });
   }, [id]);
+
+  
 
   if (isLoading) {
     return (
@@ -916,8 +928,7 @@ const CandidateProfile = () => {
 
   return (
     <>
-      <PageMeta title="Candidate Profile" />
-      <PageBreadcrumb items={[{ label: "Dashboard", path: "/" }, { label: "Candidates", path: "/candidates" }, { label: "Profile" }]} />
+     
       <div className="min-h-screen bg-gradient-to-br from-[#1a1625] via-[#2A2438] to-[#352F44] p-6 md:p-12">
         <div className="mb-6 flex flex-wrap justify-center gap-4">
           {tabs.map((tab) => (
