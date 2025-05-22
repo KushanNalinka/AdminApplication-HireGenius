@@ -755,15 +755,18 @@ const JobForm: React.FC = () => {
           className="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20"
         >
           {/* Header Section */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
-              <span className="text-2xl">💼</span>
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
-              {jobID ? "✏️ Edit Job Position" : "🚀 Create New Job"}
-            </h1>
-            <p className="text-gray-300 text-lg">Fill in the details to post your job opportunity</p>
-          </div>
+         
+         <div className="text-center mb-8">
+  <div className="flex items-center justify-center gap-4 mb-2">
+    <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
+      <span className="text-2xl">💼</span>
+    </div>
+    <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+      {jobID ? "✏️ Edit Job Position" : "🚀 Create New Job"}
+    </h1>
+  </div>
+  
+</div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Basic Information Section */}
