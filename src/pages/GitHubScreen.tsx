@@ -9,8 +9,7 @@ import { retrieveContributionData } from "../services/githubService";
 import calculateContributionMetrics from "../components/gitHub/calculateContributionMetrics";
 
 const FinalCandidate = () => {
-  const { id } = useParams(); // Get Candidate ID from URL
-  const [totalContributions, setTotalContributions] = useState(0);
+  const [, setTotalContributions] = useState(0);
   const [metrics, setMetrics] = useState(null);
   const [contributionDays, setContributionDays] = useState([]);
 
