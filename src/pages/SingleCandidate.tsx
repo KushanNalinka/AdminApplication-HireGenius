@@ -171,7 +171,7 @@
 
 
 import { useEffect, useState } from "react";
-import { useParams} from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 import { usePopupContext } from "../context/PopupContext"; // ✅ Import
@@ -263,6 +263,7 @@ const CandidateProfile = () => {
 
 
 const { openPopup, closePopup } = usePopupContext(); // ✅ Access context
+const navigate = useNavigate();
 
 useEffect(() => {
   if (selectedChart) openPopup();
@@ -1013,6 +1014,16 @@ case 'charts':
      
       <div className="min-h-screen bg-gradient-to-br from-[#1a1625] via-[#2A2438] to-[#352F44] p-6 md:p-12">
         <div className="mb-6 flex flex-wrap justify-center gap-4">
+          <button
+                className="group flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
+                onClick={() => navigate(-1)}
+              >
+                <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Go Back
+              </button>
+
           {tabs.map((tab) => (
             <button
               key={tab.id}

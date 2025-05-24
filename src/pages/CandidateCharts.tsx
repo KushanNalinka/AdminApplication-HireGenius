@@ -110,8 +110,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import PageBreadcrumb from "../components/common/PageBreadCrumb";
-import PageMeta from "../components/common/PageMeta";
+
 import '../styles/animations.css';
 
 
@@ -217,11 +216,7 @@ const CandidateCharts = () => {
 
   return (
   <>
-    <PageMeta
-      title="React.js Form Elements Dashboard | TailAdmin - React.js Admin Dashboard Template"
-      description="This is React.js Form Elements Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
-    />
-    <PageBreadcrumb pageTitle="Candidates Views" />
+    
 
     <div className="p-8 bg-gradient-to-br from-[#1a1625] via-[#2A2438] to-[#1f1b2e] text-white min-h-screen relative overflow-hidden">
       {/* Animated Background Elements */}
