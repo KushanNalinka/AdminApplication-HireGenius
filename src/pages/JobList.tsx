@@ -224,7 +224,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 // Define TypeScript type for job item
 interface Job {
@@ -245,7 +245,7 @@ const JobList: React.FC = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await axios.get<Job[]>("http://localhost:5000/jobs");
+        const response = await axios.get<Job[]>(`${API_URL}/jobs`);
         setJobs(response.data);
         setFilteredJobs(response.data);
       } catch (error) {

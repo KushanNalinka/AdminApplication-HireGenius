@@ -110,6 +110,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 import '../styles/animations.css';
 
@@ -133,7 +134,7 @@ const CandidateCharts = () => {
   useEffect(() => {
     const fetchCharts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/candidates/charts/${candidateID}`);
+        const response = await axios.get(`${API_URL}/candidates/charts/${candidateID}`);
         setCharts(response.data.charts);
       } catch (error) {
         setError("Failed to load charts.");

@@ -175,7 +175,7 @@ import { useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 import { usePopupContext } from "../context/PopupContext"; // ✅ Import
-
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 
 
@@ -275,7 +275,7 @@ useEffect(() => {
     if (!id) return;
 
     axios
-      .get(`http://localhost:5000/candidates/${id}`)
+      .get(`${API_URL}/candidates/${id}`)
       .then((response) => {
         const data = response.data;
         setCandidate({
@@ -827,7 +827,7 @@ useEffect(() => {
                 <h3 className="text-xl font-bold text-[#DBD8E3] mb-2">📄 Resume</h3>
                 {candidate.resume ? (
                   <a
-                    href={`http://localhost:5000/uploads/cv/${candidate.resume}`}
+                    href={`${API_URL}/uploads/cv/${candidate.resume}`}
                     className="text-blue-400 underline hover:text-blue-300 transition-all"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -843,7 +843,7 @@ useEffect(() => {
                 <h3 className="text-xl font-bold text-[#DBD8E3] mb-2">📑 Transcript</h3>
                 {candidate.transcript ? (
                   <a
-                    href={`http://localhost:5000/uploads/transcripts/${candidate.transcript}`}
+                    href={`${API_URL}/uploads/transcripts/${candidate.transcript}`}
                     className="text-blue-400 underline hover:text-blue-300 transition-all"
                     target="_blank"
                     rel="noopener noreferrer"

@@ -643,6 +643,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 interface Candidate {
   _id: string;
@@ -670,7 +671,7 @@ const FinalizedCandidates: React.FC = () => {
   useEffect(() => {
     const fetchFinalizedCandidates = async () => {
       try {
-        const response = await axios.get<Candidate[]>(`http://localhost:5000/candidates/job/${jobId}`);
+        const response = await axios.get<Candidate[]>(`${API_URL}/candidates/job/${jobId}`);
         const sortedCandidates = response.data
           .filter((candidate) => candidate.extract_predicted_matching_percentage)
           .sort((a, b) => b.extract_predicted_matching_percentage - a.extract_predicted_matching_percentage);
@@ -713,7 +714,7 @@ const FinalizedCandidates: React.FC = () => {
 
   const handleFinalizeClick = async (candidateId: string) => {
     try {
-      await axios.post(`http://localhost:5000/candidates/finalized_score/${candidateId}`);
+      await axios.post(`${API_URL}/candidates/finalized_score/${candidateId}`);
       alert("Finalized Score updated!");
       window.location.reload();
     } catch {

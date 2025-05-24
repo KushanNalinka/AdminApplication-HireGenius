@@ -259,7 +259,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 interface Candidate {
   _id: string;
@@ -295,7 +295,7 @@ const CandidatesList = () => {
     const fetchCandidates = async () => {
       try {
         const response = await axios.get<Candidate[]>(
-          `http://localhost:5000/candidates/job/${jobId}`
+          `${API_URL}/candidates/job/${jobId}`
         );
         setCandidates(response.data);
       } catch (error) {
@@ -315,7 +315,7 @@ const CandidatesList = () => {
   const handleExtractedPredict = async (candidateID: string) => {
     setLoadingState(candidateID, "extracted", true);
     try {
-      await axios.get(`http://localhost:5000/candidates/predict/${candidateID}`);
+      await axios.get(`${API_URL}/candidates/predict/${candidateID}`);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await fetchExtractedPredictedPercentage(candidateID);
     } catch (error) {
@@ -328,7 +328,7 @@ const CandidatesList = () => {
   const handleEnteredPredict = async (candidateID: string) => {
     setLoadingState(candidateID, "entered", true);
     try {
-      await axios.get(`http://localhost:5000/candidates/entered/predict/${candidateID}`);
+      await axios.get(`${API_URL}/candidates/entered/predict/${candidateID}`);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await fetchEnteredPredictedPercentage(candidateID);
     } catch (error) {
@@ -341,7 +341,7 @@ const CandidatesList = () => {
   const fetchExtractedPredictedPercentage = async (candidateID: string) => {
     try {
       const response = await axios.get<{ extract_predicted_matching_percentage: number }>(
-        `http://localhost:5000/candidates/predicted_percentage/${candidateID}`
+        `${API_URL}/candidates/predicted_percentage/${candidateID}`
       );
       setCandidates((prevCandidates) =>
         prevCandidates.map((candidate) =>
@@ -357,7 +357,7 @@ const CandidatesList = () => {
     } catch (error) {
       try {
         const fallbackResponse = await axios.get<Candidate>(
-          `http://localhost:5000/candidates/${candidateID}`
+          `${API_URL}/candidates/${candidateID}`
         );
         if (fallbackResponse.data.extract_predicted_matching_percentage !== undefined) {
           setCandidates((prevCandidates) =>
@@ -379,7 +379,7 @@ const CandidatesList = () => {
   const fetchEnteredPredictedPercentage = async (candidateID: string) => {
     try {
       const response = await axios.get<{ entered_predicted_matching_percentage: number }>(
-        `http://localhost:5000/candidates/entered/predicted_percentage/${candidateID}`
+        `${API_URL}/candidates/entered/predicted_percentage/${candidateID}`
       );
       setCandidates((prevCandidates) =>
         prevCandidates.map((candidate) =>
@@ -395,7 +395,7 @@ const CandidatesList = () => {
     } catch (error) {
       try {
         const fallbackResponse = await axios.get<Candidate>(
-          `http://localhost:5000/candidates/${candidateID}`
+          `${API_URL}/candidates/${candidateID}`
         );
         if (fallbackResponse.data.entered_predicted_matching_percentage !== undefined) {
           setCandidates((prevCandidates) =>
@@ -417,7 +417,7 @@ const CandidatesList = () => {
   const handleViewMore = async (candidateID: string) => {
     setLoadingState(candidateID, "charts", true);
     try {
-      await axios.post(`http://localhost:5000/candidates/generate_charts/${candidateID}`);
+      await axios.post(`${API_URL}/candidates/generate_charts/${candidateID}`);
       navigate(`/candidate-charts/${candidateID}`);
     } catch {
       alert("Failed to generate charts.");

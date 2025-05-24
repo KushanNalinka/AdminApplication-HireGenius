@@ -439,6 +439,7 @@ import { useEffect, useState, ChangeEvent, FormEvent, useMemo} from "react";
 import axios from "axios";
 
 import { usePopupContext } from "../context/PopupContext";
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 interface Job {
   _id: string;
@@ -587,7 +588,7 @@ const JobUpdatePopup = ({ job, onUpdate, onClose }: JobUpdatePopupProps) => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/jobs/${job._id}`, form);
+      await axios.put(`${API_URL}/jobs/${job._id}`, form);
       onUpdate();
       onClose();
     } catch (error) {
@@ -1049,7 +1050,7 @@ const JobList = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await axios.get<Job[]>("http://localhost:5000/jobs");
+        const response = await axios.get<Job[]>(`${API_URL}/jobs`);
         setJobs(response.data);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -1060,7 +1061,7 @@ const JobList = () => {
 
   const handleDelete = async (jobId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/jobs/${jobId}`);
+      await axios.delete(`${API_URL}/jobs/${jobId}`);
       setJobs(jobs.filter((job) => job._id !== jobId));
     } catch (error) {
       console.error("Error deleting job:", error);

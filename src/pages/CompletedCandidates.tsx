@@ -628,6 +628,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePopupContext } from "../context/PopupContext";
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 interface Candidate {
   _id: string;
@@ -659,7 +660,7 @@ const FinalizedCandidates = () => {
   useEffect(() => {
     const fetchFinalizedCandidates = async () => {
       try {
-        const response = await axios.get<Candidate[]>(`http://localhost:5000/candidates/job/${jobId}`);
+        const response = await axios.get<Candidate[]>(`${API_URL}/candidates/job/${jobId}`);
         const updatedCandidates = response.data.map((candidate) => ({
           ...candidate,
           github_linkedin_transcript_avg: calculateAverageMarks(candidate),
