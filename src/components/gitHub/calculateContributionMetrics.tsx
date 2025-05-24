@@ -1,5 +1,3 @@
-import { act } from "react";
-
 export default function calculateContributionMetrics(
   weeks: any,
   userName: any
