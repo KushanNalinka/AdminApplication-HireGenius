@@ -60,7 +60,7 @@ const LinkedInPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5001/getCandidateScore",
+        "http://127.0.0.1:5000/candidates/getCandidateLinkedinScore",
         {
           username: username,
           job_data: jobData,

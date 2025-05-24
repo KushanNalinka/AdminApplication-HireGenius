@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,7 +17,7 @@ const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
     setError(null);
     setApiResponse(null);
 
-    const apiUrl = "http://127.0.0.1:5001/predict";
+    const apiUrl = " http://127.0.0.1:5000/candidates/getCandidateGithubScore";
     const requestBody = {
       //@ts-ignore
       marks: ref.current.value,

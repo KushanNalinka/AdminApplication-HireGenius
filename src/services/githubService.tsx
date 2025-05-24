@@ -9,6 +9,7 @@ query($userName:String!) {
             contributionCount
             date
           }
+            
         }
       }
     }
@@ -16,31 +17,24 @@ query($userName:String!) {
 }
 `;
 
-export async function retrieveContributionData(userName: string) {
-  const variables = {
-    userName: userName,
-  };
-
+export async function retrieveContributionData(userName: any) {
+  const variables = `
+  {
+    "userName": "${userName}"
+  }
+`;
   const body = {
     query,
     variables,
   };
-
-  const TOKEN = import.meta.env.VITE_GITHUB_TOKEN; // 👈 Access from .env
-
-  if (!TOKEN) {
-    throw new Error("GitHub token is not defined in environment variables.");
-  }
-
+  const TOKEN = "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";
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${TOKEN}`,
-      "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
-
   const data = await res.json();
   const weeks =
     data.data.user.contributionsCollection.contributionCalendar.weeks;
