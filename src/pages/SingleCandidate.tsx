@@ -174,6 +174,10 @@ import { useEffect, useState } from "react";
 import { useParams} from "react-router-dom";
 import axios from "axios";
 
+import { usePopupContext } from "../context/PopupContext"; // ✅ Import
+
+
+
 
 interface Experience {
   title: string;
@@ -256,6 +260,15 @@ const CandidateProfile = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [selectedChart, setSelectedChart] = useState<{ category: string; data: { chart: string } } | null>(null);
+
+
+const { openPopup, closePopup } = usePopupContext(); // ✅ Access context
+
+useEffect(() => {
+  if (selectedChart) openPopup();
+  else closePopup();
+}, [selectedChart]);
+
 
   useEffect(() => {
     if (!id) return;
@@ -846,7 +859,77 @@ const CandidateProfile = () => {
         
 
         // Add a new switch case for 'charts' in renderTabContent
-      case 'charts':
+  //     case 'charts':
+  // return (
+  //   <div className="space-y-8 animate-fade-in">
+  //     <div className="text-center mb-8">
+  //       <div className="w-16 h-16 mx-auto bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center text-3xl animate-spin-slow shadow-xl">
+  //         📈
+  //       </div>
+  //       <h2 className="text-4xl font-bold text-[#DBD8E3] mt-2">📊 Visual Charts</h2>
+  //       <div className="h-1 w-32 mx-auto bg-gradient-to-r from-green-400 to-blue-500 rounded-full mt-2"></div>
+  //     </div>
+
+  //     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+  //       {candidate.charts ? (
+  //         Object.entries(candidate.charts).map(([category, data], index) => (
+  //           <div
+  //             key={index}
+  //             className="relative bg-gradient-to-br from-[#352F44] to-[#5C5470] p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.4)] transform hover:scale-105 hover:rotate-1 transition-all duration-500 border border-indigo-500/20 cursor-pointer"
+  //             onClick={() => setSelectedChart({ category, data })}
+  //             title="Click to enlarge"
+  //           >
+  //             <div className="flex items-center space-x-4 mb-4">
+  //               <div className="w-12 h-12 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-xl animate-bounce shadow-lg">
+  //                 📊
+  //               </div>
+  //               <h3 className="text-2xl font-bold text-[#DBD8E3]">{category}</h3>
+  //             </div>
+
+  //             <div className="overflow-hidden rounded-xl shadow-inner bg-[#1f1a2c] p-3 border border-[#DBD8E3]/10 hover:shadow-xl transition-all duration-300">
+  //               <img
+  //                 src={`data:image/png;base64,${data.chart}`}
+  //                 alt={`${category} Chart`}
+  //                 className="w-full h-auto rounded-lg hover:scale-105 transition-transform duration-300"
+  //               />
+  //             </div>
+
+  //             <p className="text-sm text-gray-400 mt-3 italic text-right">Click to enlarge 🔍</p>
+  //           </div>
+  //         ))
+  //       ) : (
+  //         <p className="text-[#DBD8E3] text-center col-span-2">No charts available</p>
+  //       )}
+  //     </div>
+
+  //     {/* Fullscreen Modal */}
+  //     {selectedChart && (
+  //       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
+  //         <div className="relative bg-[#1a1625] rounded-3xl p-6 w-full max-w-4xl shadow-2xl transform scale-100 transition duration-300">
+  //           <button
+  //             className="absolute top-4 right-4 text-white text-xl bg-gradient-to-r from-red-500 to-pink-500 px-3 py-1 rounded-full hover:scale-105 transition"
+  //             onClick={() => setSelectedChart(null)}
+  //           >
+  //             ⬅ Back
+  //           </button>
+  //           <div className="flex items-center mb-4">
+  //             <div className="w-12 h-12 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-2xl mr-4 animate-bounce">
+  //               📈
+  //             </div>
+  //             <h3 className="text-3xl font-bold text-[#DBD8E3]">{selectedChart.category}</h3>
+  //           </div>
+  //           <img
+  //             src={`data:image/png;base64,${selectedChart.data.chart}`}
+  //             alt="Enlarged Chart"
+  //             className="w-full h-auto rounded-xl border border-[#DBD8E3]/20"
+  //           />
+  //         </div>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
+
+case 'charts':
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center mb-8">
@@ -889,33 +972,32 @@ const CandidateProfile = () => {
         )}
       </div>
 
-      {/* Fullscreen Modal */}
       {selectedChart && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
-          <div className="relative bg-[#1a1625] rounded-3xl p-6 w-full max-w-4xl shadow-2xl transform scale-100 transition duration-300">
-            <button
-              className="absolute top-4 right-4 text-white text-xl bg-gradient-to-r from-red-500 to-pink-500 px-3 py-1 rounded-full hover:scale-105 transition"
-              onClick={() => setSelectedChart(null)}
-            >
-              ⬅ Back
-            </button>
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-2xl mr-4 animate-bounce">
-                📈
-              </div>
-              <h3 className="text-3xl font-bold text-[#DBD8E3]">{selectedChart.category}</h3>
-            </div>
-            <img
-              src={`data:image/png;base64,${selectedChart.data.chart}`}
-              alt="Enlarged Chart"
-              className="w-full h-auto rounded-xl border border-[#DBD8E3]/20"
-            />
-          </div>
+  <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm">
+    <div className="relative bg-[#1a1625] rounded-3xl p-6 w-full max-w-4xl shadow-2xl transform scale-100 transition duration-300">
+      <button
+        className="absolute top-4 right-4 text-white text-xl bg-gradient-to-r from-red-500 to-pink-500 px-3 py-1 rounded-full hover:scale-105 transition"
+        onClick={() => setSelectedChart(null)}
+      >
+        ⬅ Back
+      </button>
+      <div className="flex items-center mb-4">
+        <div className="w-12 h-12 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-2xl mr-4 animate-bounce">
+          📈
         </div>
-      )}
+        <h3 className="text-3xl font-bold text-[#DBD8E3]">{selectedChart.category}</h3>
+      </div>
+      <img
+        src={`data:image/png;base64,${selectedChart.data.chart}`}
+        alt="Enlarged Chart"
+        className="w-full h-auto rounded-xl border border-[#DBD8E3]/20"
+      />
+    </div>
+  </div>
+)}
+
     </div>
   );
-
 
 
 

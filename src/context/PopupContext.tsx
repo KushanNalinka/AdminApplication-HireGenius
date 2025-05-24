@@ -1,5 +1,5 @@
-// PopupContext.tsx (TSX version)
-import React, { createContext, useContext, useState, ReactNode } from "react";
+// src/context/PopupContext.tsx
+import { createContext, useContext, useState, ReactNode } from "react";
 
 interface PopupContextType {
   isPopupOpen: boolean;
@@ -9,20 +9,8 @@ interface PopupContextType {
 
 const PopupContext = createContext<PopupContextType | undefined>(undefined);
 
-export const usePopup = (): PopupContextType => {
-  const context = useContext(PopupContext);
-  if (!context) {
-    throw new Error("usePopup must be used within a PopupProvider");
-  }
-  return context;
-};
-
-interface PopupProviderProps {
-  children: ReactNode;
-}
-
-export const PopupProvider: React.FC<PopupProviderProps> = ({ children }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+export const PopupProvider = ({ children }: { children: ReactNode }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const openPopup = () => setIsPopupOpen(true);
   const closePopup = () => setIsPopupOpen(false);
@@ -32,4 +20,10 @@ export const PopupProvider: React.FC<PopupProviderProps> = ({ children }) => {
       {children}
     </PopupContext.Provider>
   );
+};
+
+export const usePopupContext = () => {
+  const context = useContext(PopupContext);
+  if (!context) throw new Error("usePopupContext must be used within PopupProvider");
+  return context;
 };

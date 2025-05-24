@@ -648,6 +648,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import PageMeta from "../components/common/PageMeta";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 const API_URL = import.meta.env.VITE_API_URL as string;   // ← magic line
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface FormData {
   jobID: string;
@@ -732,16 +734,20 @@ const JobForm: React.FC = () => {
 
     if (file) formDataToSend.append("file", file);
 
-    if (jobID) {
-      await axios.put(`http://localhost:5000/jobs/${jobID}`, formDataToSend);
-      alert("Job updated successfully!");
-    } else {
-      await axios.post("http://localhost:5000/jobs", formDataToSend);
-      alert("Job added successfully!");
+    try {
+      if (jobID) {
+        await axios.put(`${API_URL}/jobs/${jobID}`, formDataToSend);
+        toast.success("🎉 Job updated successfully!", { autoClose: 2500 });
+      } else {
+        await axios.post(`${API_URL}/jobs`, formDataToSend);
+        toast.success("🚀 Job created successfully!", { autoClose: 2500 });
+      }
+      setTimeout(() => navigate("/"), 2600);
+    } catch (error) {
+      toast.error("❌ Failed to submit the job form!", { autoClose: 3000 });
     }
-
-    navigate("/");
   };
+
 
   return (
     <>
