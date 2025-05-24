@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -17,7 +18,7 @@ const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
     setError(null);
     setApiResponse(null);
 
-    const apiUrl = " http://127.0.0.1:5000/candidates/getCandidateGithubScore";
+    const apiUrl = `${API_URL}/candidates/getCandidateGithubScore`;
     const requestBody = {
       //@ts-ignore
       marks: ref.current.value,
@@ -65,7 +66,7 @@ const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:5001/api/candidates/${candidateId}/github`,
+        `${API_URL}/api/candidates/${candidateId}/github`,
         //@ts-ignore
         { githubMark: apiResponse.marks },
         { headers: { "Content-Type": "application/json" } }

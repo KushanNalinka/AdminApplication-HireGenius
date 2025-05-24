@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 const TranscriptPage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -19,7 +20,7 @@ const TranscriptPage: React.FC = () => {
     const fetchPredictedPercentage = async () => {
       try {
         console.log("Fetching job id...", jobId);
-        const response = await axios.get(`http://localhost:5000/jobs/${jobId}`);
+        const response = await axios.get(`${API_URL}/jobs/${jobId}`);
         console.log(response.data);
         setSelectedJob(response.data);
       } catch (err) {
@@ -60,7 +61,7 @@ const TranscriptPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/candidates/getCandidateTranscriptScore",
+        `${API_URL}/candidates/getCandidateTranscriptScore`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -92,7 +93,7 @@ const TranscriptPage: React.FC = () => {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:5000/api/candidates/${candidateId}/transcript`,
+        `${API_URL}/api/candidates/${candidateId}/transcript`,
         { transcriptMark: parseInt(score.toString()) },
         { headers: { "Content-Type": "application/json" } }
       );

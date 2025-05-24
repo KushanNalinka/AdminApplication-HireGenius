@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import LinkedInDataCard from "../components/linkedIn/LinkedinDataCard";
+const API_URL = import.meta.env.VITE_API_URL as string;
 
 const LinkedInPage: React.FC = () => {
   const [score, setScore] = useState<string | null>(null);
@@ -25,7 +26,7 @@ const LinkedInPage: React.FC = () => {
     const fetchPredictedPercentage = async () => {
       try {
         console.log("Fetching job id...", jobId);
-        const response = await axios.get(`http://localhost:5000/jobs/${jobId}`);
+        const response = await axios.get(`${API_URL}/jobs/${jobId}`);
         console.log(response.data);
         setSelectedJob(response.data);
       } catch (err) {
@@ -60,7 +61,7 @@ const LinkedInPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/candidates/getCandidateLinkedinScore",
+        `${API_URL}/candidates/getCandidateLinkedinScore`,
         {
           username: username,
           job_data: jobData,
@@ -88,7 +89,7 @@ const LinkedInPage: React.FC = () => {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:5001/api/candidates/${candidateId}/linkedin`,
+        `${API_URL}/api/candidates/${candidateId}/linkedin`,
         { linkedinMark: parseInt(score) },
         { headers: { "Content-Type": "application/json" } }
       );
