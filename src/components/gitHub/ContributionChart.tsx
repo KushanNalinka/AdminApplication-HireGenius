@@ -1,8 +1,9 @@
 import { parseISO } from "date-fns";
 // import format from "date-fns/format";
-
+import React from "react";
 import {
   createContainer,
+  VictoryAxis,
   VictoryBrushContainer,
   VictoryChart,
   VictoryGroup,
