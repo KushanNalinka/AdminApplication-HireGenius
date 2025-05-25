@@ -643,6 +643,10 @@ interface Candidate {
   transcript_marks?: number;
   finalized_score?: number;
   github_linkedin_transcript_avg?: string;
+  candidate_insights_avg?: number;
+  entered_employer_choice_similarity?: number;
+  entered_employer_expectations_similarity?: number;
+  entered_message_similarity?: number;
 }
 
 const FinalizedCandidates = () => {
@@ -664,6 +668,7 @@ const FinalizedCandidates = () => {
         const updatedCandidates = response.data.map((candidate) => ({
           ...candidate,
           github_linkedin_transcript_avg: calculateAverageMarks(candidate),
+          candidate_insights_avg: ((candidate.entered_employer_choice_similarity || 0) + (candidate.entered_employer_expectations_similarity || 0) + (candidate.entered_message_similarity || 0)) / 3,
         }));
         setCandidates(updatedCandidates);
         setFilteredCandidates(updatedCandidates);
@@ -771,6 +776,10 @@ const FinalizedCandidates = () => {
                     <div className={`p-3 rounded-xl ${getScoreBadge(c.extract_cv_similarity)}`}>
                       <p>📄 CV Match</p>
                       <p className="text-lg font-bold">{c.extract_cv_similarity ?? 'N/A'}%</p>
+                    </div>
+                    <div className={`p-3 rounded-xl ${getScoreBadge(c.candidate_insights_avg)}`}>
+                      <p>🧮 Insights Avg</p>
+                      <p className="text-lg font-bold">{c.candidate_insights_avg ?? 'N/A'}%</p>
                     </div>
                     <div className={`p-3 rounded-xl ${getScoreBadge(parseFloat(c.github_linkedin_transcript_avg || '0'))}`}>
                       <p>💼 Profile Avg</p>

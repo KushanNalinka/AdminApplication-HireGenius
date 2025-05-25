@@ -656,6 +656,9 @@ interface Candidate {
   github_marks?: number;
   linkedin_marks?: number;
   transcript_marks?: number;
+  entered_employer_choice_similarity?: number;
+  entered_employer_expectations_similarity?: number;
+  entered_message_similarity?: number;
 }
 
 const FinalizedCandidates: React.FC = () => {
@@ -806,6 +809,18 @@ const FinalizedCandidates: React.FC = () => {
         <div className="bg-[#e11d48]/20 p-3 rounded-xl">
           <p className="text-rose-300">📝 CV Similarity</p>
           <p className="text-xl font-bold text-white">{candidate.extract_cv_similarity ?? 'N/A'}%</p>
+        </div>
+         <div className="bg-[#059669]/20 p-3 rounded-xl">
+          <p className="text-green-300">🌍Employer Choice </p>
+          <p className="text-xl font-bold text-white">{candidate. entered_employer_choice_similarity ?? 'N/A'}%</p>
+        </div>
+        <div className="bg-[#4338ca]/20 p-3 rounded-xl">
+          <p className="text-violet-200">💰 Expectations</p>
+          <p className="text-xl font-bold text-emerald-400">{candidate.entered_employer_expectations_similarity}%</p>
+        </div>
+        <div className="bg-[#06b6d4]/20 p-3 rounded-xl">
+          <p className="text-cyan-300">🔮 Initial insight</p>
+          <p className="text-xl font-bold text-white">{candidate.entered_message_similarity ?? 'N/A'}</p>
         </div>
       </div>
 
