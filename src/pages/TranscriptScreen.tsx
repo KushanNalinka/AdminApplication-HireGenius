@@ -43,7 +43,11 @@ const TranscriptPage: React.FC = () => {
   const navigateTo = useNavigate();
 
   if (!selectedJob) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -109,97 +113,177 @@ const TranscriptPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
-      {/* Heading */}
-      <h1 className="text-3xl font-bold text-center mt-8 mb-8 text-blue-600">
-        Job Application Score Calculator
-      </h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-6">
+      {/* Header Stats */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <div className="bg-purple-800/50 backdrop-blur-sm rounded-2xl p-6 border border-purple-700/50">
+          <div className="flex justify-between items-center">
+            <div className="flex space-x-8">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-white">5</div>
+                <div className="text-purple-300 text-sm">Total Candidates</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-green-400">0</div>
+                <div className="text-purple-300 text-sm">Analyzed</div>
+              </div>
+            </div>
+            <div className="text-purple-300 text-sm">Page 1 of 1</div>
+          </div>
+        </div>
+      </div>
 
-      {/* Form */}
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <form onSubmit={handleSubmit}>
-          {/* Drag-and-Drop File Upload */}
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Upload PDF Transcript
-            </label>
-            <div
-              {...getRootProps()}
-              className={`flex items-center justify-center w-full p-6 border-2 border-dashed rounded-lg ${
-                isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300"
-              }`}
-            >
-              <input {...getInputProps()} />
-              {file ? (
-                <p className="text-center">{file.name}</p>
-              ) : isDragActive ? (
-                <p className="text-center text-blue-500">
-                  Drop the file here...
-                </p>
-              ) : (
-                <p className="text-center text-gray-500">
-                  Drag and drop a PDF file here, or click to select a file
-                </p>
-              )}
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-purple-800/30 backdrop-blur-sm rounded-2xl p-8 border border-purple-700/50">
+          {/* Candidate Profile Header */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                {selectedCandidate?.name?.charAt(0) || "T"}
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">
+                  Transcript Analysis
+                </h2>
+                <p className="text-purple-300">{selectedJob.jobTitle}</p>
+              </div>
             </div>
           </div>
 
-          {/* Job Role Dropdown */}
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Selected Job Role : {selectedJob.jobTitle}
-            </label>
-          </div>
+          {/* Upload Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Drag-and-Drop File Upload */}
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-3">
+                    Upload PDF Transcript
+                  </label>
+                  <div
+                    {...getRootProps()}
+                    className={`relative p-8 border-2 border-dashed rounded-xl transition-all cursor-pointer ${
+                      isDragActive
+                        ? "border-cyan-400 bg-cyan-400/10"
+                        : "border-purple-500/50 bg-purple-700/20 hover:border-purple-400"
+                    }`}
+                  >
+                    <input {...getInputProps()} />
+                    <div className="text-center">
+                      {file ? (
+                        <div className="space-y-2">
+                          <div className="text-green-400 text-4xl">📄</div>
+                          <p className="text-white font-medium">{file.name}</p>
+                          <p className="text-purple-300 text-sm">
+                            Ready to upload
+                          </p>
+                        </div>
+                      ) : isDragActive ? (
+                        <div className="space-y-2">
+                          <div className="text-cyan-400 text-4xl">⬇️</div>
+                          <p className="text-cyan-400 font-medium">
+                            Drop the file here...
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          <div className="text-purple-400 text-4xl">📎</div>
+                          <p className="text-white font-medium">
+                            Drag and drop a PDF file here
+                          </p>
+                          <p className="text-purple-300 text-sm">
+                            or click to select a file
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-500 text-orange-500 py-3 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            {loading ? (
-              <div className="flex items-center justify-center">
-                <svg
-                  className="animate-spin h-5 w-5 mr-3 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                {/* Job Role Display */}
+                <div className="bg-purple-700/30 rounded-xl p-4 border border-purple-600/30">
+                  <label className="block text-purple-300 text-sm font-medium mb-1">
+                    Selected Job Role
+                  </label>
+                  <p className="text-white font-semibold">
+                    {selectedJob.jobTitle}
+                  </p>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-[1.02] disabled:transform-none disabled:cursor-not-allowed"
                 >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="green"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Processing...
+                  {loading ? (
+                    <div className="flex items-center justify-center space-x-3">
+                      <svg
+                        className="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      <span>Processing...</span>
+                    </div>
+                  ) : (
+                    "📊 Upload and Calculate"
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* Score Display and Actions */}
+            <div className="space-y-6">
+              {score !== null && (
+                <div className="bg-gradient-to-br from-green-500/20 to-emerald-600/20 backdrop-blur-sm rounded-xl p-6 border border-green-500/30">
+                  <div className="text-center space-y-3">
+                    <div className="text-green-400 text-5xl">🎯</div>
+                    <h3 className="text-2xl font-bold text-white">
+                      Final Score
+                    </h3>
+                    <div className="text-4xl font-bold text-green-400">
+                      {score}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="space-y-4">
+                <button
+                  onClick={saveResultsToDB}
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-3 px-6 rounded-xl font-semibold transition-all transform hover:scale-[1.02] flex items-center justify-center space-x-2"
+                >
+                  <span>✅</span>
+                  <span>Save Results to DB</span>
+                </button>
+
+                <button
+                  onClick={() => navigateTo("/")}
+                  className="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white py-3 px-6 rounded-xl font-semibold transition-all transform hover:scale-[1.02] flex items-center justify-center space-x-2"
+                >
+                  <span>🏠</span>
+                  <span>Go to Home</span>
+                </button>
               </div>
-            ) : (
-              "Upload and Calculate"
-            )}
-          </button>
-        </form>
-      </div>
-
-      {/* Score Display */}
-      {score !== null && (
-        <div className="mt-8 p-6 bg-green-100 rounded-lg text-center w-full max-w-md">
-          <h2 className="text-xl font-semibold text-green-700">
-            Final Score: {score}
-          </h2>
+            </div>
+          </div>
         </div>
-      )}
-
-      <div className="mt-10">
-        <button onClick={saveResultsToDB}>Save Results to DB</button>
-        <button onClick={() => navigateTo("/")}>Go to Home</button>
       </div>
 
       {/* Toast Container */}
@@ -213,6 +297,8 @@ const TranscriptPage: React.FC = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        theme="dark"
+        toastClassName="bg-purple-800 text-white"
       />
     </div>
   );

@@ -39,7 +39,11 @@ const LinkedInPage: React.FC = () => {
   }, []);
 
   if (!selectedJob) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white text-lg">
+        Loading...
+      </div>
+    );
   }
 
   const handleSubmit = async () => {
@@ -52,7 +56,7 @@ const LinkedInPage: React.FC = () => {
       jobRole: selectedJob.jobTitle,
       job_description: selectedJob.jobDescription,
       experienceYears: parseInt(selectedJob.experienceYears),
-      education: selectedJob.qualifications,
+      education: selectedJob.requiredQualifications,
       skills: selectedJob.requiredSkills.filter(
         (skill: string) => skill.trim() !== ""
       ),
@@ -105,14 +109,14 @@ const LinkedInPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-100 flex flex-col items-center p-8 min-w-full h-full">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
-        <h2 className="text-3xl font-bold mb-6 text-blue-700 text-center">
+    <div className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen flex flex-col items-center p-8">
+      <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 shadow-2xl rounded-2xl p-8 w-full border border-purple-700/30">
+        <h2 className="text-3xl font-bold mb-6 text-white text-center">
           LinkedIn Profile Analysis
         </h2>
 
         <div className="min-w-xl max-w-2xl mb-6">
-          <label className="block text-lg font-semibold text-gray-700 mb-2">
+          <label className="block text-lg font-semibold text-purple-100 mb-2">
             Selected Profile:
           </label>
           <input
@@ -120,48 +124,48 @@ const LinkedInPage: React.FC = () => {
             placeholder="Enter LinkedIn Profile URL"
             value={profileUrl}
             onChange={(e) => setProfileUrl(e.target.value)}
-            className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-purple-600/50 rounded-lg shadow-sm bg-purple-800/30 text-white placeholder-purple-300 focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
           />
         </div>
 
         {/* Job Details Section */}
         {selectedJob && (
-          <div className="bg-blue-50 p-6 rounded-lg shadow-md border-l-4 border-blue-600">
-            <h3 className="text-2xl font-bold text-blue-700 mb-3">
+          <div className="bg-gradient-to-r from-purple-800/50 to-indigo-800/50 p-6 rounded-lg shadow-md border border-purple-600/30">
+            <h3 className="text-2xl font-bold text-white mb-3">
               Expected Job Details - (Recruiter Section)
             </h3>
-            <p className="text-lg font-semibold text-gray-800">
+            <p className="text-lg font-semibold text-purple-100">
               {selectedJob.jobRole}
             </p>
-            <p className="text-sm text-gray-600 italic mb-4">
+            <p className="text-sm text-purple-200 italic mb-4">
               {selectedJob.jobDescription}
             </p>
 
             <div className="grid grid-cols-2 gap-4">
-              <p className="font-semibold text-gray-700">
+              <p className="font-semibold text-purple-100">
                 Experience Required:
-                <span className="text-blue-700 ml-2">
+                <span className="text-white ml-2">
                   {selectedJob.experienceYears} years
                 </span>
               </p>
-              <p className="font-semibold text-gray-700">
+              <p className="font-semibold text-purple-100">
                 Education:
-                <span className="text-blue-700 ml-2">
-                  {selectedJob.qualifications}
+                <span className="text-white ml-2">
+                  {selectedJob.requiredQualifications}
                 </span>
               </p>
             </div>
 
             {/* Skills List */}
             <div className="mt-4">
-              <h4 className="font-semibold text-gray-700 mb-2">
+              <h4 className="font-semibold text-purple-100 mb-2">
                 Skills Required:
               </h4>
               <div className="flex flex-wrap gap-2">
                 {selectedJob.requiredSkills.map((skill: any, index: any) => (
                   <span
                     key={index}
-                    className="bg-blue-200 text-blue-700 px-3 py-1 rounded-md text-sm font-medium"
+                    className="bg-purple-600/50 text-purple-100 px-3 py-1 rounded-md text-sm font-medium border border-purple-500/30"
                   >
                     {skill}
                   </span>
@@ -176,7 +180,7 @@ const LinkedInPage: React.FC = () => {
           id="submitbutton"
           disabled={loading}
           onClick={handleSubmit}
-          className="w-full bg-slate-700 mt-10 text-white py-3 px-4 rounded-lg hover:bg-slate-800 focus:outline-none focus:ring-2  focus:ring-offset-2"
+          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 mt-10 text-white py-3 px-4 rounded-lg hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900 transition-all duration-200 shadow-lg"
         >
           {loading ? (
             <div className="flex items-center justify-center">
@@ -196,7 +200,7 @@ const LinkedInPage: React.FC = () => {
                 ></circle>
                 <path
                   className="opacity-75"
-                  fill="green"
+                  fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
@@ -214,7 +218,7 @@ const LinkedInPage: React.FC = () => {
             <br />
             <LinkedInDataCard profileData={profile} />
 
-            <div className="mt-6 p-4 bg-green-100 shadow-md rounded-lg text-xl font-semibold text-green-700 text-center">
+            <div className="mt-6 p-4 bg-gradient-to-r from-green-600/80 to-emerald-600/80 shadow-md rounded-lg text-xl font-semibold text-white text-center border border-green-500/30">
               Candidate Score: {score}
             </div>
           </>
@@ -222,15 +226,15 @@ const LinkedInPage: React.FC = () => {
       </div>
 
       <ToastContainer position="bottom-right" autoClose={5000} />
-      <div className="mt-10  ">
+      <div className="mt-10">
         <button
-          className="px-4 py-2 mr-10 bg-slate-700 text-white font-semibold rounded-lg shadow-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          className="px-6 py-3 mr-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75 transition-all duration-200"
           onClick={saveResultsToDB}
         >
           Save Results to DB
         </button>
         <button
-          className="px-4 py-2 bg-slate-700 text-white font-semibold rounded-lg shadow-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          className="px-6 py-3 bg-gradient-to-r from-slate-600 to-gray-600 text-white font-semibold rounded-lg shadow-lg hover:from-slate-700 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-75 transition-all duration-200"
           onClick={() => navigateTo("/")}
         >
           Go to Home
