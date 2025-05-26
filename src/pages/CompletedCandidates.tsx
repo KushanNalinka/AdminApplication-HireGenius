@@ -668,7 +668,8 @@ const FinalizedCandidates = () => {
         const updatedCandidates = response.data.map((candidate) => ({
           ...candidate,
           github_linkedin_transcript_avg: calculateAverageMarks(candidate),
-          candidate_insights_avg: ((candidate.entered_employer_choice_similarity || 0) + (candidate.entered_employer_expectations_similarity || 0) + (candidate.entered_message_similarity || 0)) / 3,
+          candidate_insights_avg: Math.round((((candidate.entered_employer_choice_similarity || 0) + (candidate.entered_employer_expectations_similarity || 0) + (candidate.entered_message_similarity || 0)) / 3) * 100) / 100,
+          //candidate_insights_avg: ((candidate.entered_employer_choice_similarity || 0) + (candidate.entered_employer_expectations_similarity || 0) + (candidate.entered_message_similarity || 0)) / 3,
         }));
         setCandidates(updatedCandidates);
         setFilteredCandidates(updatedCandidates);
