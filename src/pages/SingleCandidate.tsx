@@ -289,7 +289,7 @@ interface ChartsData {
 
 interface Candidate {
   confirmEmail: string;
-  jobPosition: string;
+  contactNumber: string;
   jobTitle: string;
   university: string;
   education_level: string;
@@ -433,10 +433,10 @@ useEffect(() => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 p-3 bg-[#2A2438]/50 rounded-xl hover:bg-[#2A2438]/80 transition-colors">
-                    <span className="text-2xl">🏢</span>
+                    <span className="text-2xl">📱 </span>
                     <div>
-                      <p className="text-sm text-gray-400">Position</p>
-                      <p className="text-[#DBD8E3] font-medium">{candidate.jobPosition}</p>
+                      <p className="text-sm text-gray-400">Contact</p>
+                      <p className="text-[#DBD8E3] font-medium">{candidate.contactNumber}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 p-3 bg-[#2A2438]/50 rounded-xl hover:bg-[#2A2438]/80 transition-colors">
