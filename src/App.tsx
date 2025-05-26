@@ -27,7 +27,7 @@ import CandidateCharts from "./pages/CandidateCharts";
 import SingleCandidate from "./pages/SingleCandidate";
 import SingleFinalized from "./pages/SingleFinalized";
 import HRCandidates from "./pages/HR/HRCandidates";
-
+import HRCandidateView from "./pages/HR/HRCandidateView";
 
 // import RankedCandidates from "./pages/RankedCandidates";
 // import GitHubScreen from "./pages/GitHubScreen";
@@ -67,6 +67,7 @@ export default function App() {
 
             {/* HR Components */}
             <Route path="/hr" element={<HRCandidates />} />
+            <Route path="/hr-candidate/:email" element={<HRCandidateView />} />
 
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
