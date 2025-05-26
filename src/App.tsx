@@ -27,7 +27,12 @@ import CandidateCharts from "./pages/CandidateCharts";
 import SingleCandidate from "./pages/SingleCandidate";
 import SingleFinalized from "./pages/SingleFinalized";
 
+import HRCandidates from "./pages/HR/HRCandidates";
+import HRCandidateView from "./pages/HR/HRCandidateView";
+
+
 import CompletedCandidates from "./pages/CompletedCandidates";
+
 
 import RankedCandidates from "./pages/RankedCandidates";
 import GitHubScreen from "./pages/GitHubScreen";
@@ -64,6 +69,10 @@ export default function App() {
             <Route path="/single/linkedin/:id" element={<LinkedinScreen/>} />
             <Route path="/single/transcript/:id" element={<TranscriptScreen />} />
 
+            {/* HR Components */}
+            <Route path="/hr" element={<HRCandidates />} />
+            <Route path="/hr-candidate/:email" element={<HRCandidateView />} />
+
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
             <Route path="/jobcreate" element={<JobCreate />} />
@@ -91,7 +100,7 @@ export default function App() {
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
-        
+
         </Routes>
       </Router>
     </>

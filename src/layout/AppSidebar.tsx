@@ -17,6 +17,7 @@ import {
   PlugInIcon,
   TableIcon,
   UserCircleIcon,
+  GroupIcon
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 
@@ -38,6 +39,11 @@ const navItems: NavItem[] = [
     icon: <CalenderIcon />,
     name: "Interview Calendar",
     path: "/calendar",
+  },
+  {
+    icon: <GroupIcon />,
+    name: "Human Resource",
+    path: "/hr",
   },
   {
     icon: <UserCircleIcon />,
@@ -74,6 +80,7 @@ const navItems: NavItem[] = [
       { name: "404 Error", path: "/error-404", pro: false },
     ],
   },
+  
 ];
 
 const othersItems: NavItem[] = [
