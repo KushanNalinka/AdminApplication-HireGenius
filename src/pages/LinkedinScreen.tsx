@@ -93,7 +93,7 @@ const LinkedInPage: React.FC = () => {
 
     try {
       const response = await axios.put(
-        `${API_URL}/api/candidates/${candidateId}/linkedin`,
+        `${API_URL}/candidates/${candidateId}/linkedin`,
         { linkedinMark: parseInt(score) },
         { headers: { "Content-Type": "application/json" } }
       );

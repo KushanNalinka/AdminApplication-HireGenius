@@ -66,7 +66,7 @@ const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
 
     try {
       const response = await axios.put(
-        `${API_URL}/api/candidates/${candidateId}/github`,
+        `${API_URL}/candidates/${candidateId}/github`,
         //@ts-ignore
         { githubMark: apiResponse.marks },
         { headers: { "Content-Type": "application/json" } }
@@ -89,14 +89,34 @@ const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
         maxWidth: "90%",
         margin: "20px auto",
         padding: "24px",
-        borderRadius: "16px",
-        background: "rgba(255, 255, 255, 0.1)",
-        backdropFilter: "blur(10px)",
-        border: "1px solid rgba(255, 255, 255, 0.2)",
-        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+        // borderRadius: "16px",
+        // background: "rgba(255, 255, 255, 0.1)",
+        // backdropFilter: "blur(10px)",
+        // border: "1px solid rgba(255, 255, 255, 0.2)",
+        // boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
         overflowX: "auto",
       }}
     >
+      <style>
+        {`
+          .white-placeholder::placeholder {
+            color: white !important;
+            opacity: 0.7;
+          }
+          .white-placeholder::-webkit-input-placeholder {
+            color: white !important;
+            opacity: 0.7;
+          }
+          .white-placeholder::-moz-placeholder {
+            color: white !important;
+            opacity: 0.7;
+          }
+          .white-placeholder:-ms-input-placeholder {
+            color: white !important;
+            opacity: 0.7;
+          }
+        `}
+      </style>
       <h2
         style={{
           textAlign: "center",
@@ -320,6 +340,7 @@ const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
               outline: "none",
               transition: "all 0.3s ease",
             }}
+            className="white-placeholder"
             onFocus={(e) => {
               e.target.style.borderColor = "rgba(139, 69, 193, 0.8)";
               e.target.style.boxShadow = "0 0 0 3px rgba(139, 69, 193, 0.2)";
@@ -475,7 +496,7 @@ const UserSummaryTable = ({ userData, selectedCandidate }: any) => {
 
       {/* Toast Container */}
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

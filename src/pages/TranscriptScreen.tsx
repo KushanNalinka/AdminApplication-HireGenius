@@ -97,7 +97,7 @@ const TranscriptPage: React.FC = () => {
 
     try {
       const response = await axios.put(
-        `${API_URL}/api/candidates/${candidateId}/transcript`,
+        `${API_URL}/candidates/${candidateId}/transcript`,
         { transcriptMark: parseInt(score.toString()) },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -289,7 +289,7 @@ const TranscriptPage: React.FC = () => {
 
       {/* Toast Container */}
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
