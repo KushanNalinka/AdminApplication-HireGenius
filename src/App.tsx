@@ -33,6 +33,7 @@ import RankedCandidates from "./pages/RankedCandidates";
 import GitHubScreen from "./pages/GitHubScreen";
 import LinkedinScreen from "./pages/LinkedinScreen";
 import TranscriptScreen from "./pages/TranscriptScreen";
+import { TechnicalInterviewResults } from "./pages/TechnicalInterviewResults";
 
 
 
@@ -63,6 +64,7 @@ export default function App() {
             <Route path="/single/github/:id" element={<GitHubScreen />} />
             <Route path="/single/linkedin/:id" element={<LinkedinScreen/>} />
             <Route path="/single/transcript/:id" element={<TranscriptScreen />} />
+            <Route path="/tech-results" element={<TechnicalInterviewResults />} />
 
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
