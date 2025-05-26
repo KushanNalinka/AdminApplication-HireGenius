@@ -170,14 +170,96 @@
 
 
 
+// import { useEffect, useState } from "react";
+// import { useParams, useNavigate} from "react-router-dom";
+// import axios from "axios";
+
+// import { usePopupContext } from "../context/PopupContext"; // ✅ Import
+// const API_URL = import.meta.env.VITE_API_URL as string;
+
+
+
+// interface Experience {
+//   title: string;
+//   company: string;
+//   from: string;
+//   to: string;
+//   officeLocation: string;
+//   description: string;
+// }
+
+// interface Education {
+//   degree: string;
+//   institute: string;
+//   year: string;
+// }
+
+// interface CourseOrAchievement {
+//   type: string;
+//   content: string;
+// }
+
+// interface ChartsData {
+//   [category: string]: {
+//     chart: string;
+//   };
+// }
+
+// interface Candidate {
+//   confirmEmail: string;
+//   jobPosition: string;
+//   jobTitle: string;
+//   university: string;
+//   education_level: string;
+//   noofyearsofexperience: number;
+//   linkedIn: string;
+//   github: string;
+//   twitter: string;
+//   website: string;
+//   extract_predicted_matching_percentage: number;
+//   extract_workExperienceMatchingSimilarity: number;
+//   extract_achievements_similarity: number;
+//   extract_coursesAndCertificationMatchingSimilarity: number;
+//   extract_projectsMatchingSimilarity: number;
+//   salaryRange: string;
+//   vacancySource: string;
+//   privacyPolicy: string;
+//   employerChoice: string;
+//   message: string;
+//   experience: Experience[];
+//   education: Education[];
+//   work_experience: string[];
+//   project_experiences: string[];
+//   courses_certifications_achievements: CourseOrAchievement[];
+//   extractednoofprogramminglanguages: number;
+//   extractednoofprogrammingframeworks: number;
+//   extractednoofcloudtechnologies: number;
+//   extractednoofdatabasetechnologies: number;
+//   extractednoofdevopstools: number;
+//   extractednoofsoftwaredevelopmentmethodologies: number;
+//   extractednoofversioncontroltechnologies: number;
+//   extractednoofwebtechnologies: number;
+//   num_of_tools_technologies: number;
+//   resume: string;
+//   transcript: string;
+//   entered_predicted_matching_percentage?: number;
+//   entered_experience_similarity?: number;
+//   entered_education_similarity?: number;
+//   entered_courses_certifications_similarity?: number;
+//   entered_employer_choice_similarity?: number;
+//   entered_employer_expectations_similarity?: number;
+//   entered_message_similarity?: number;
+//   extract_cv_similarity?: number;
+//   charts?: ChartsData;
+// }
+
+
 import { useEffect, useState } from "react";
-import { useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { usePopupContext } from "../context/PopupContext"; // ✅ Import
+import { usePopupContext } from "../context/PopupContext";
 const API_URL = import.meta.env.VITE_API_URL as string;
-
-
 
 interface Experience {
   title: string;
@@ -231,6 +313,9 @@ interface Candidate {
   work_experience: string[];
   project_experiences: string[];
   courses_certifications_achievements: CourseOrAchievement[];
+  achievements: string;
+  coursesCertifications: string;
+  extract_achievements: string[];
   extractednoofprogramminglanguages: number;
   extractednoofprogrammingframeworks: number;
   extractednoofcloudtechnologies: number;
@@ -316,6 +401,7 @@ useEffect(() => {
     { id: 'skills', label: 'Skills', icon: '⚡' },
     { id: 'projects', label: 'Projects', icon: '🚀' },
     { id: 'achievements', label: 'Achievements', icon: '🏆' },
+   { id: 'certifications', label: 'Courses & Certifications', icon: '📘' },
     { id: 'documents', label: 'Documents', icon: '🗂️' },
       { id: 'charts', label: 'Charts', icon: '📈' }
   ];
@@ -746,73 +832,315 @@ useEffect(() => {
           </div>
         );
 
-      case 'achievements':
-        return (
-          <div className="space-y-8 animate-fade-in">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold text-[#DBD8E3] mb-4">🏆 Achievements & Certifications</h2>
-              <div className="h-1 w-32 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full mx-auto"></div>
-            </div>
+      // case 'achievements':
+      //   return (
+      //     <div className="space-y-8 animate-fade-in">
+      //       <div className="text-center mb-8">
+      //         <h2 className="text-4xl font-bold text-[#DBD8E3] mb-4">🏆 Achievements & Certifications</h2>
+      //         <div className="h-1 w-32 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full mx-auto"></div>
+      //       </div>
 
-            {/* Certifications */}
-            <div className="mb-12">
-              <h3 className="text-2xl font-bold text-[#DBD8E3] mb-6">📜 Certifications & Courses</h3>
-              {candidate.courses_certifications_achievements && 
-               candidate.courses_certifications_achievements.filter(cert => cert.type === "Courses/Certifications").length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {candidate.courses_certifications_achievements
-                    .filter(cert => cert.type === "Courses/Certifications")
-                    .map((cert, index) => (
-                      <div key={index} className="bg-gradient-to-br from-[#352F44] to-[#5C5470] p-6 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-500 border-t-4 border-blue-500">
-                        <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-xl animate-spin-slow">
-                            📜
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-[#DBD8E3] leading-relaxed">{cert.content}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <div className="text-4xl mb-2 opacity-50">📜</div>
-                  <p className="text-[#DBD8E3]">No certifications available</p>
-                </div>
-              )}
-            </div>
+      //       {/* Certifications */}
+      //       <div className="mb-12">
+      //         <h3 className="text-2xl font-bold text-[#DBD8E3] mb-6">📜 Certifications & Courses</h3>
+      //         {candidate.courses_certifications_achievements && 
+      //          candidate.courses_certifications_achievements.filter(cert => cert.type === "Courses/Certifications").length > 0 ? (
+      //           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      //             {candidate.courses_certifications_achievements
+      //               .filter(cert => cert.type === "Courses/Certifications")
+      //               .map((cert, index) => (
+      //                 <div key={index} className="bg-gradient-to-br from-[#352F44] to-[#5C5470] p-6 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-500 border-t-4 border-blue-500">
+      //                   <div className="flex items-start space-x-4">
+      //                     <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-xl animate-spin-slow">
+      //                       📜
+      //                     </div>
+      //                     <div className="flex-1">
+      //                       <p className="text-[#DBD8E3] leading-relaxed">{cert.content}</p>
+      //                     </div>
+      //                   </div>
+      //                 </div>
+      //               ))}
+      //           </div>
+      //         ) : (
+      //           <div className="text-center py-8">
+      //             <div className="text-4xl mb-2 opacity-50">📜</div>
+      //             <p className="text-[#DBD8E3]">No certifications available</p>
+      //           </div>
+      //         )}
+      //       </div>
 
-            {/* Achievements */}
-            <div>
-              <h3 className="text-2xl font-bold text-[#DBD8E3] mb-6">🏆 Achievements</h3>
-              {candidate.courses_certifications_achievements && 
-               candidate.courses_certifications_achievements.filter(item => item.type === "Achievements").length > 0 ? (
-                <div className="space-y-4">
-                  {candidate.courses_certifications_achievements
-                    .filter(item => item.type === "Achievements")
-                    .map((item, index) => (
-                      <div key={index} className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-6 rounded-3xl shadow-lg border border-yellow-500/30 hover:border-yellow-500/50 transition-all duration-300">
-                        <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-                          400 rounded-full flex items-center justify-center text-xl animate-pulse">
-                            🏆
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-[#DBD8E3] leading-relaxed">{item.content}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+      //       {/* Achievements */}
+      //       <div>
+      //         <h3 className="text-2xl font-bold text-[#DBD8E3] mb-6">🏆 Achievements</h3>
+      //         {candidate.courses_certifications_achievements && 
+      //          candidate.courses_certifications_achievements.filter(item => item.type === "Achievements").length > 0 ? (
+      //           <div className="space-y-4">
+      //             {candidate.courses_certifications_achievements
+      //               .filter(item => item.type === "Achievements")
+      //               .map((item, index) => (
+      //                 <div key={index} className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-6 rounded-3xl shadow-lg border border-yellow-500/30 hover:border-yellow-500/50 transition-all duration-300">
+      //                   <div className="flex items-start space-x-4">
+      //                     <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-                          400 rounded-full flex items-center justify-center text-xl animate-pulse">
+      //                       🏆
+      //                     </div>
+      //                     <div className="flex-1">
+      //                       <p className="text-[#DBD8E3] leading-relaxed">{item.content}</p>
+      //                     </div>
+      //                   </div>
+      //                 </div>
+      //               ))}
+      //           </div>
+      //         ) : (
+      //           <div className="text-center py-8">
+      //             <div className="text-4xl mb-2 opacity-50">🏆</div>
+      //             <p className="text-[#DBD8E3]">No achievements available</p>
+      //           </div>
+      //         )}
+      //       </div>
+      //     </div>
+      //   );
+
+//       case 'achievements':
+//   return (
+//     <div className="space-y-8 animate-fade-in">
+//       <div className="text-center mb-8">
+//         <h2 className="text-4xl font-bold text-[#DBD8E3] mb-4">🏆 Achievements</h2>
+//         <div className="h-1 w-32 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full mx-auto"></div>
+//       </div>
+
+//       {candidate.extract_achievements && candidate.extract_achievements.length > 0 && (
+//         <div className="space-y-4">
+//           {candidate.extract_achievements.map((achievement, index) => (
+//             <div
+//               key={`extract-${index}`}
+//               className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-6 rounded-3xl shadow-lg border border-yellow-500/30 hover:border-yellow-500/50 transition-all duration-300"
+//             >
+//               <div className="flex items-start space-x-4">
+//                 <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-xl animate-pulse">
+//                   🏆
+//                 </div>
+//                 <div className="flex-1">
+//                   <p className="text-[#DBD8E3] leading-relaxed">{achievement}</p>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+
+//       {candidate.achievements && (
+//         <div className="bg-[#2A2438]/50 p-6 rounded-2xl mt-6 border border-yellow-500/30">
+//           <h3 className="text-xl text-[#DBD8E3] font-semibold mb-2">Additional Achievements</h3>
+//           <pre className="text-[#DBD8E3] whitespace-pre-wrap font-mono text-sm">{candidate.achievements}</pre>
+//         </div>
+//       )}
+//     </div>
+//   );
+
+// case 'certifications':
+//   return (
+//     <div className="space-y-8 animate-fade-in">
+//       <div className="text-center mb-8">
+//         <h2 className="text-4xl font-bold text-[#DBD8E3] mb-4">📜 Courses & Certifications</h2>
+//         <div className="h-1 w-32 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full mx-auto"></div>
+//       </div>
+
+//       {candidate.coursesCertifications && (
+//         <div className="bg-[#2A2438]/50 p-6 rounded-2xl mt-6 border border-blue-500/30">
+//           <h3 className="text-xl text-[#DBD8E3] font-semibold mb-2">Additional Course Content</h3>
+//           <pre className="text-[#DBD8E3] whitespace-pre-wrap font-mono text-sm">{candidate.coursesCertifications}</pre>
+//         </div>
+//       )}
+
+//       {candidate.courses_certifications_achievements && candidate.courses_certifications_achievements.length > 0 && (
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//           {candidate.courses_certifications_achievements.map((entry, index) => (
+//             <div
+//               key={index}
+//               className="bg-gradient-to-br from-[#352F44] to-[#5C5470] p-6 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-500 border-t-4 border-blue-500"
+//             >
+//               <div className="flex items-start space-x-4">
+//                 <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-xl animate-spin-slow">
+//                   📘
+//                 </div>
+//                 <div className="flex-1">
+//                   <p className="text-[#DBD8E3] leading-relaxed">{entry.content}</p>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+
+      
+//     </div>
+//   );
+
+case 'achievements':
+  return (
+    <div className="space-y-8 animate-fade-in">
+      <div className="text-center mb-12">
+        <div className="relative inline-block">
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 blur-xl rounded-full transform scale-150"></div>
+          <h2 className="relative text-5xl font-bold text-[#DBD8E3] mb-6 tracking-wide">
+            <span className="inline-block transform hover:scale-110 transition-transform duration-300">🏆</span>
+            <span className="ml-4">Achievements</span>
+          </h2>
+        </div>
+        <div className="relative">
+          <div className="h-2 w-48 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 rounded-full mx-auto shadow-lg"></div>
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-2 w-16 bg-white/30 rounded-full animate-pulse"></div>
+        </div>
+      </div>
+
+      {candidate.extract_achievements && candidate.extract_achievements.length > 0 && (
+        <div className="space-y-6">
+          {candidate.extract_achievements.map((achievement, index) => (
+            <div
+              key={`extract-${index}`}
+              className="group relative bg-gradient-to-br from-yellow-500/10 via-orange-500/15 to-yellow-500/10 p-8 rounded-3xl shadow-2xl border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-500 transform hover:translate-y-[-4px] backdrop-blur-sm"
+              style={{
+                boxShadow: '0 25px 50px -12px rgba(234, 179, 8, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-orange-400/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div className="relative flex items-start space-x-6">
+                <div className="relative">
+                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 via-orange-400 to-yellow-500 rounded-2xl flex items-center justify-center text-2xl shadow-lg transform group-hover:rotate-6 transition-transform duration-300"
+                       style={{
+                         boxShadow: '0 10px 25px rgba(234, 179, 8, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                       }}>
+                    🗂️
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-300 to-orange-300 rounded-full flex items-center justify-center text-xs animate-bounce">
+                    ✨
+                  </div>
                 </div>
-              ) : (
-                <div className="text-center py-8">
-                  <div className="text-4xl mb-2 opacity-50">🏆</div>
-                  <p className="text-[#DBD8E3]">No achievements available</p>
+                
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center space-x-3">
+                    <div className="h-1 w-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full"></div>
+                    <span className="text-yellow-400 text-sm font-semibold tracking-wide">ACHIEVEMENT #{index + 1}</span>
+                  </div>
+                  <p className="text-[#DBD8E3] leading-relaxed text-lg font-medium">{achievement}</p>
                 </div>
-              )}
+              </div>
+              
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent rounded-b-3xl"></div>
             </div>
+          ))}
+        </div>
+      )}
+
+      {candidate.achievements && (
+        <div className="relative bg-gradient-to-br from-[#2A2438]/80 via-[#2A2438]/60 to-[#2A2438]/80 p-8 rounded-3xl mt-8 border border-yellow-500/20 backdrop-blur-sm"
+             style={{
+               boxShadow: '0 25px 50px -12px rgba(42, 36, 56, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+             }}>
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400/50 via-orange-400/50 to-yellow-400/50 rounded-t-3xl"></div>
+          
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-xl flex items-center justify-center shadow-lg">
+              📋
+            </div>
+            <h3 className="text-2xl text-[#DBD8E3] font-bold tracking-wide">Additional Achievements</h3>
           </div>
-        );
+          
+          <div className="bg-[#1a1625]/50 p-6 rounded-2xl border border-yellow-500/10">
+            <pre className="text-[#DBD8E3] whitespace-pre-wrap font-mono text-sm leading-relaxed">{candidate.achievements}</pre>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+case 'certifications':
+  return (
+    <div className="space-y-8 animate-fade-in">
+      <div className="text-center mb-12">
+        <div className="relative inline-block">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-cyan-400/20 blur-xl rounded-full transform scale-150"></div>
+          <h2 className="relative text-5xl font-bold text-[#DBD8E3] mb-6 tracking-wide">
+            <span className="inline-block transform hover:scale-110 transition-transform duration-300">📜</span>
+            <span className="ml-4">Courses & Certifications</span>
+          </h2>
+        </div>
+        <div className="relative">
+          <div className="h-2 w-48 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 rounded-full mx-auto shadow-lg"></div>
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-2 w-16 bg-white/30 rounded-full animate-pulse"></div>
+        </div>
+      </div>
+
+      {candidate.coursesCertifications && (
+        <div className="relative bg-gradient-to-br from-[#2A2438]/80 via-[#2A2438]/60 to-[#2A2438]/80 p-8 rounded-3xl mt-8 border border-blue-500/20 backdrop-blur-sm"
+             style={{
+               boxShadow: '0 25px 50px -12px rgba(42, 36, 56, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+             }}>
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400/50 via-cyan-400/50 to-blue-400/50 rounded-t-3xl"></div>
+          
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg">
+              📚
+            </div>
+            <h3 className="text-2xl text-[#DBD8E3] font-bold tracking-wide">Additional Course Content</h3>
+          </div>
+          
+          <div className="bg-[#1a1625]/50 p-6 rounded-2xl border border-blue-500/10">
+            <pre className="text-[#DBD8E3] whitespace-pre-wrap font-mono text-sm leading-relaxed">{candidate.coursesCertifications}</pre>
+          </div>
+        </div>
+      )}
+
+      {candidate.courses_certifications_achievements && candidate.courses_certifications_achievements.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {candidate.courses_certifications_achievements.map((entry, index) => (
+            <div
+              key={index}
+              className="group relative bg-gradient-to-br from-[#352F44] via-[#5C5470] to-[#352F44] p-8 rounded-3xl shadow-2xl transform hover:scale-105 hover:rotate-1 transition-all duration-500 border-t-4 border-blue-500 backdrop-blur-sm"
+              style={{
+                boxShadow: '0 25px 50px -12px rgba(53, 47, 68, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/5 to-cyan-400/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div className="relative flex items-start space-x-6">
+                <div className="relative">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-2xl shadow-lg transform group-hover:rotate-12 transition-transform duration-500"
+                       style={{
+                         boxShadow: '0 10px 25px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                       }}>
+                    🗂️
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-cyan-300 to-blue-300 rounded-full flex items-center justify-center text-sm animate-spin-slow">
+                    🎯
+                  </div>
+                </div>
+                
+                <div className="flex-1 space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="h-1 w-8 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"></div>
+                    <span className="text-blue-400 text-sm font-semibold tracking-wide">CERTIFICATION #{index + 1}</span>
+                  </div>
+                  <p className="text-[#DBD8E3] leading-relaxed text-lg font-medium">{entry.content}</p>
+                </div>
+              </div>
+              
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent rounded-b-3xl"></div>
+              
+              {/* 3D depth effect */}
+              <div className="absolute -bottom-2 -right-2 w-full h-full bg-gradient-to-br from-[#1a1625]/20 to-[#2A2438]/40 rounded-3xl -z-10 blur-sm"></div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+      
+
+
+
 
       case 'documents':
         return (
