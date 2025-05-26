@@ -76,9 +76,7 @@ const FinalCandidate = () => {
                 </div>
 
                 {/* Contribution Chart Container */}
-                <div className="bg-white/5 rounded-xl p-6 mb-8 border border-white/10">
-                  <ContributionChart contributionDays={contributionDays} />
-                </div>
+                <ContributionChart contributionDays={contributionDays} />
 
                 {/* Summary Section */}
                 <div className="text-center">
@@ -86,7 +84,7 @@ const FinalCandidate = () => {
                     GitHub Contribution Summary
                   </h3>
 
-                  <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+                  <div>
                     {metrics ? (
                       <UserSummaryTable
                         userData={metrics}
@@ -101,13 +99,6 @@ const FinalCandidate = () => {
                       </div>
                     )}
                   </div>
-                </div>
-
-                {/* Calculate Marks Button */}
-                <div className="text-center mt-8">
-                  <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                    Calculate Marks
-                  </button>
                 </div>
               </div>
             </>
