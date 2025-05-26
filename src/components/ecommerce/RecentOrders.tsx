@@ -8,6 +8,9 @@ import {
 import Badge from "../ui/badge/Badge";
 import dilshanImage from "./images/dilshan.jpg";
 import kushanImage from "./images/kushan.jpg";
+import nuwandiImage from "../../assets/images/nuwandi.jpg";
+import rishenImage from "../../assets/images/rishen.jpg";
+import sewminiImage from "../../assets/images/sewmini.jpg";
 
 // Define the TypeScript interface for the table rows
 interface Product {
@@ -32,8 +35,18 @@ const tableData: Product[] = [
     status: "Online",
     image:  dilshanImage, // Replace with actual image URL
   },
+  
   {
     id: 2,
+    name: "Nuwandi Hewamadduma",
+    variants: "Senior Manager - Talent Acquisition",
+    category: "Human Resources",
+    price: "1325",
+    status: "Online",
+    image: nuwandiImage, // Replace with actual image URL
+  },
+  {
+    id: 3,
     name: "Kushan Nalinka",
     variants: "Senior Manager - Talent Acquisition",
     category: "Development",
@@ -42,22 +55,13 @@ const tableData: Product[] = [
     image: kushanImage, // Replace with actual image URL
   },
   {
-    id: 3,
-    name: "Nuwandi Hewamadduma",
-    variants: "Senior Manager - Talent Acquisition",
-    category: "Human Resources",
-    price: "1325",
-    status: "Online",
-    image: "/images/product/product-03.jpg", // Replace with actual image URL
-  },
-  {
     id: 4,
     name: "Rishen Lithan",
     variants: "Senior Manager - HR Interview",
     category: "Human Resources",
     price: "876",
     status: "Leave",
-    image: "/images/product/product-04.jpg", // Replace with actual image URL
+    image: rishenImage, // Replace with actual image URL
   },
   {
     id: 5,
@@ -66,7 +70,7 @@ const tableData: Product[] = [
     category: "Development",
     price: "1143",
     status: "Online",
-    image: "/images/product/product-05.jpg", // Replace with actual image URL
+    image: sewminiImage, // Replace with actual image URL
   },
 ];
 

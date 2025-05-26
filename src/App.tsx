@@ -26,14 +26,18 @@ import JobView from "./pages/JobView";
 import CandidateCharts from "./pages/CandidateCharts";
 import SingleCandidate from "./pages/SingleCandidate";
 import SingleFinalized from "./pages/SingleFinalized";
+
 import HRCandidates from "./pages/HR/HRCandidates";
 import HRCandidateView from "./pages/HR/HRCandidateView";
 
-// import RankedCandidates from "./pages/RankedCandidates";
-// import GitHubScreen from "./pages/GitHubScreen";
-// import LinkedinScreen from "./pages/LinkedinScreen";
-// import TranscriptScreen from "./pages/TranscriptScreen";
-// import CompletedCandidates from "./pages/CompletedCandidates";
+
+import CompletedCandidates from "./pages/CompletedCandidates";
+
+
+import RankedCandidates from "./pages/RankedCandidates";
+import GitHubScreen from "./pages/GitHubScreen";
+import LinkedinScreen from "./pages/LinkedinScreen";
+import TranscriptScreen from "./pages/TranscriptScreen";
 
 
 
@@ -59,11 +63,11 @@ export default function App() {
             <Route path="/candidate-charts/:candidateID" element={<CandidateCharts />} />
             <Route path="/single/candidate/:id" element={<SingleCandidate />} />
             <Route path="/single/finalized/:id" element={<SingleFinalized />} />
-            {/* <Route path="/finalized/ranked/:jobId" element={<RankedCandidates />} />
+            <Route path="/finalized/ranked/:jobId" element={<RankedCandidates />} />
             <Route path="/completed/final-ranked/:jobId" element={<CompletedCandidates />} />
             <Route path="/single/github/:id" element={<GitHubScreen />} />
             <Route path="/single/linkedin/:id" element={<LinkedinScreen/>} />
-            <Route path="/single/transcript/:id" element={<TranscriptScreen />} /> */}
+            <Route path="/single/transcript/:id" element={<TranscriptScreen />} />
 
             {/* HR Components */}
             <Route path="/hr" element={<HRCandidates />} />
