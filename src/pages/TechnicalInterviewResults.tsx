@@ -64,8 +64,8 @@ export function TechnicalInterviewResults() {
           result.round1.convertedFinalScore = round1Converted;
 
           const round2Marks = result.round2?.level2Data?.marks || 0;
-          result.round1.weightedMarks = round1Converted * 0.65;
-          result.round2.weightedMarks = round2Marks * 0.35;
+          result.round1.weightedMarks = round1Converted * 0.60;
+          result.round2.weightedMarks = round2Marks * 0.40;
           result.finalScore = result.round1.weightedMarks + result.round2.weightedMarks;
 
           const totalTimeSeconds = result.round1?.totalTimeTaken || 0;
@@ -295,8 +295,8 @@ export function TechnicalInterviewResults() {
                   <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Theoretical Mark</th>
                   <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Coding Mark</th>
                   <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Attention Rate</th>
-                  <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Weighted Theory (65%)</th>
-                  <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Weighted Coding (35%)</th>
+                  <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Weighted Theory (60%)</th>
+                  <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Weighted Coding (40%)</th>
                   <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Final Score</th>
                   <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Time Taken (mins)</th>
                   <th className="px-8 py-6 text-center text-base font-semibold text-gray-700">Status</th>
